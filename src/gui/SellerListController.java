@@ -66,7 +66,7 @@ public class SellerListController implements Initializable, DialogForm{
 	public void onBtNewAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event); //pega o palco atual
 		Seller obj = new Seller();
-		createDialogForm(obj,"/gui/DepartmentForm.fxml", parentStage);
+		createDialogForm(obj,"/gui/SellerForm.fxml", parentStage);
 	}
 	
 	//Injeção de dependêncie
