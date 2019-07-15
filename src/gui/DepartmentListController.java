@@ -32,7 +32,7 @@ import javafx.stage.Stage;
 import model.entities.Department;
 import model.services.DepartmentService;
 
-public class DepartmentListController implements Initializable, DataChangeListener {
+public class DepartmentListController implements Initializable, DialogForm, DataChangeListener {
 
 	// Dependence
 	private DepartmentService service;
@@ -93,7 +93,9 @@ public class DepartmentListController implements Initializable, DataChangeListen
 		initRemoveButtons();
 	}
 
-	private void createDialogForm(Department obj, String absoluteName, Stage parentStage) {
+
+	@Override
+	public <Department> void createDialogForm(Department obj, String absoluteName, Stage parentStage) {
 		try {
 			// carregamento da view
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
@@ -101,7 +103,7 @@ public class DepartmentListController implements Initializable, DataChangeListen
 
 			// para carregar os dados nas caixas de texto ao abrir o form
 			DepartmentFormController controller = loader.getController();
-			controller.setDepartment(obj);
+			controller.setDepartment((model.entities.Department)obj);
 			controller.setDepartmentService(new DepartmentService());
 			controller.subscribeDataChangeListener(this);
 			controller.updateFormData();
@@ -117,6 +119,7 @@ public class DepartmentListController implements Initializable, DataChangeListen
 			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
 		}
 	}
+
 
 	@Override
 	public void onDataChanged() {
@@ -176,4 +179,6 @@ public class DepartmentListController implements Initializable, DataChangeListen
 		}
 
 	}
+
+
 }
