@@ -143,6 +143,11 @@ public class SellerListController implements Initializable, DialogForm{
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
 			
+			//instanciando o seller
+			SellerFormController controller = loader.getController();
+			controller.setSeller((model.entities.Seller) obj);
+			controller.updateFormData();
+			
 			Stage dialogStage = new Stage();
 			dialogStage.setTitle("Enter department data");
 			dialogStage.setScene(new Scene(pane));

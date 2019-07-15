@@ -12,6 +12,9 @@ import model.entities.Seller;
 
 public class SellerFormController implements Initializable {
 	
+	//dependences
+	private Seller entity;
+	
 	@FXML
 	private TextField txtId;
 	
@@ -35,6 +38,10 @@ public class SellerFormController implements Initializable {
 	
 	@FXML
 	private Button btCancel;	
+	
+	public void setSeller(Seller entity) {
+		this.entity = entity;
+	}
 	
 	@FXML
 	public void onBtSaveAction() {
@@ -60,6 +67,26 @@ public class SellerFormController implements Initializable {
 		Constraints.setTextFieldDouble(txtBaseSalary);
 		Constraints.setTextFieldMaxLength(txtBaseSalary, 10);
 		Constraints.setTextFieldInteger(txtDepartmentId);
+	}
+	
+	public void updateFormData() {
+		if(entity == null) {
+			throw new IllegalStateException("Entity was null");
+		}
+		txtId.setText(String.valueOf(entity.getId()));
+		txtName.setText(entity.getName());
+		txtEmail.setText(entity.getEmail());
+		
+		if (entity.getBirthDate() != null) {
+            txtBirthDate.setText(String.valueOf(entity.getBirthDate()));
+        }
+		
+		txtBaseSalary.setText(String.valueOf(entity.getBaseSalary()));
+	
+		
+		if (entity.getDepartment() != null) {
+            txtDepartmentId.setText(String.valueOf(entity.getDepartment().getId()));
+        }
 	}
 
 }
