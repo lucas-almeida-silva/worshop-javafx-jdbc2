@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
@@ -31,7 +32,7 @@ import model.entities.Seller;
 import model.services.DepartmentService;
 import model.services.SellerService;
 
-public class SellerListController implements Initializable, DialogForm{
+public class SellerListController implements Initializable, DialogForm, DataChangeListener{
 	
 	//dependence
 	private SellerService service;
@@ -70,7 +71,7 @@ public class SellerListController implements Initializable, DialogForm{
 		createDialogForm(obj,"/gui/SellerForm.fxml", parentStage);
 	}
 	
-	//Injeção de dependêncie
+	//Injeção de dependência
 	public void setSellerService(SellerService service) {
 		this.service = service;
 	}
@@ -148,6 +149,7 @@ public class SellerListController implements Initializable, DialogForm{
 			SellerFormController controller = loader.getController();
 			controller.setSeller((model.entities.Seller) obj);
 			controller.setSellerService(new SellerService());
+			controller.subscribeDataChangeListener(this);
 			controller.updateFormData();
 			
 			Stage dialogStage = new Stage();
@@ -161,6 +163,11 @@ public class SellerListController implements Initializable, DialogForm{
 		} catch (IOException e) {
 			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
 		}
+	}
+
+	@Override
+	public void onDataChanged() {
+		updateTableView();
 	}
 	 
 	 

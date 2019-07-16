@@ -179,6 +179,7 @@ public class DepartmentListController implements Initializable, DialogForm, Data
 		}
 
 	}
-
+	
+	
 
 }
