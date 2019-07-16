@@ -28,6 +28,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Department;
 import model.entities.Seller;
+import model.services.DepartmentService;
 import model.services.SellerService;
 
 public class SellerListController implements Initializable, DialogForm{
@@ -146,6 +147,7 @@ public class SellerListController implements Initializable, DialogForm{
 			//instanciando o seller
 			SellerFormController controller = loader.getController();
 			controller.setSeller((model.entities.Seller) obj);
+			controller.setSellerService(new SellerService());
 			controller.updateFormData();
 			
 			Stage dialogStage = new Stage();
