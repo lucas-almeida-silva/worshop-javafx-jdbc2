@@ -11,6 +11,7 @@ import application.Main;
 import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,10 +30,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Department;
 import model.entities.Seller;
-import model.services.DepartmentService;
 import model.services.SellerService;
 
 public class SellerListController implements Initializable, DialogForm, DataChangeListener{
+	
+	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 	//dependence
 	private SellerService service;
@@ -57,6 +59,9 @@ public class SellerListController implements Initializable, DialogForm, DataChan
 	
 	@FXML
 	private TableColumn<Seller, Department> tableColumnDepartmentId;
+	
+	@FXML
+	private TableColumn<Seller, Seller> tableColumnEDIT;
 	
 	@FXML 
 	private Button btNew;
@@ -101,6 +106,7 @@ public class SellerListController implements Initializable, DialogForm, DataChan
 	            List<Seller> list = service.findAll();
 	            obsList = FXCollections.observableArrayList(list);
 	            tableViewSeller.setItems(obsList);
+	            initEditButtons();
 	        }
 	    }
 	 private void initializeDepartmentIdColumn() {
@@ -124,7 +130,7 @@ public class SellerListController implements Initializable, DialogForm, DataChan
 		 tableColumnBirthDate.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
 	        
 	        tableColumnBirthDate.setCellFactory(param -> new TableCell<>() {
-	            private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	           
 	            
 	            @Override
 	            public void updateItem(Date date, boolean empty) {
@@ -169,7 +175,25 @@ public class SellerListController implements Initializable, DialogForm, DataChan
 	public void onDataChanged() {
 		updateTableView();
 	}
-	 
+	
+	private void initEditButtons() {
+		tableColumnEDIT.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		tableColumnEDIT.setCellFactory(param -> new TableCell<Seller, Seller>() {
+			private final Button button = new Button("edit");
+
+			@Override
+			protected void updateItem(Seller obj, boolean empty) {
+				super.updateItem(obj, empty);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				setGraphic(button);
+				button.setOnAction(
+						event -> createDialogForm(obj, "/gui/SellerForm.fxml", Utils.currentStage(event)));
+			}
+		});
+	}
 	 
 	 
 }

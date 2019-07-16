@@ -224,7 +224,7 @@ public class SellerFormController implements Initializable {
 		txtEmail.setText(entity.getEmail());
 		
 		if (entity.getBirthDate() != null) {
-            txtBirthDate.setText(String.valueOf(entity.getBirthDate()));
+            txtBirthDate.setText(String.valueOf(sdf.format(entity.getBirthDate())));
         }
 		
 		txtBaseSalary.setText(String.valueOf(entity.getBaseSalary()));
